@@ -29,20 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.textLabel = new System.Windows.Forms.Label();
             this.moveTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // textLabel
-            // 
-            this.textLabel.AutoSize = true;
-            this.textLabel.Font = new System.Drawing.Font("Viner Hand ITC", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textLabel.ForeColor = System.Drawing.Color.Orange;
-            this.textLabel.Location = new System.Drawing.Point(41, 81);
-            this.textLabel.Name = "textLabel";
-            this.textLabel.Size = new System.Drawing.Size(153, 26);
-            this.textLabel.TabIndex = 0;
-            this.textLabel.Text = "Screen Saver Demo";
             // 
             // PetriDishForm
             // 
@@ -50,7 +38,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonShadow;
             this.ClientSize = new System.Drawing.Size(284, 262);
-            this.Controls.Add(this.textLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "PetriDishForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
@@ -60,13 +47,11 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.ScreenSaverForm_MouseClick);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ScreenSaverForm_MouseMove);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label textLabel;
         private System.Windows.Forms.Timer moveTimer;
     }
 }
