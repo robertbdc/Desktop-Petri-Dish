@@ -71,10 +71,21 @@ namespace ScreenSaver
 
         static void ShowScreenSaver()
         {
+            // debug: skip first screen
+            int skip = -1; // set to 0 to skip screen 2, 1 to skip screen 1, -1 to not skip any
+            // This is set to instantiate a separate screen saver in each screen
+            // Future: Work across screens
             foreach (Screen aScreen in Screen.AllScreens)
             {
-                PetriDishForm aScreenSaver = new PetriDishForm(aScreen.Bounds);
-                aScreenSaver.Show();
+                if (skip != 0)
+                {
+                    PetriDishForm aScreenSaver = new PetriDishForm(aScreen);
+                    aScreenSaver.Show();
+                }
+                if (skip == 0)
+                    skip = 1;
+                else if (skip == 1)
+                    skip = 0;
             }
         } // end showscreensaver
     }

@@ -28,10 +28,11 @@ namespace ScreenSaver
         private Point mouseLocation; // initializes to empty?
         private Random rand = new Random(); // not using this for cryptography so it doesn't have to be really random
         private bool previewMode = false; // set to true if we're previewing, so we don't pay attention to the mouse
+        private Bitmap screenBitmap = null; // set to the way the screen looks before the scrsaver starts
 
         #region Constructors
         // Default constructor not used here
-        //public ScreenSaverForm()
+        //public PetriDishForm()
         //{
         //    InitializeComponent();
         //}
@@ -65,19 +66,41 @@ namespace ScreenSaver
             InitializeComponent();
             this.Bounds = theBounds;
         }
+
+        public PetriDishForm(Screen aScreen)
+        {
+            InitializeComponent();
+
+            this.Bounds = aScreen.Bounds; // get w/h
+
+            Bitmap screenBitmap = new Bitmap(this.Size.Width, this.Size.Height);
+            Graphics myGraphics = Graphics.FromImage(screenBitmap);
+            // From X/Y is 0,0 for screen 1 - but not for screen 2!
+            myGraphics.CopyFromScreen(aScreen.Bounds.X, aScreen.Bounds.Y, 0, 0, this.Size, CopyPixelOperation.SourceCopy); // from 0,0 to 0,0
+
+            this.BackgroundImage = screenBitmap;
+            //this.CreateGraphics().DrawImageUnscaled(screenBitmap, 0, 0);
+
+        }
         #endregion
         
         #region Form Events
-        private void ScreenSaverForm_Load(object sender, EventArgs e)
+        private void PetriDishForm_Load(object sender, EventArgs e)
         {
             Cursor.Hide();
             TopMost = true;
 
-            moveTimer.Interval = 3000;
+            // My size has already been set by the constructor
+
+            moveTimer.Interval = 1000;
             moveTimer.Tick += new EventHandler(moveTimer_Tick);
             moveTimer.Start();
 
         }
+
+        #endregion
+
+        #region Generic Screen Saver Events
 
         private void ScreenSaverForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -116,12 +139,37 @@ namespace ScreenSaver
 
         private void moveTimer_Tick(object sender, EventArgs e)
         {
-            // Move text to new location
-            textLabel.Left = rand.Next(Math.Max(1, Bounds.Width - textLabel.Width));
-            textLabel.Top = rand.Next(Math.Max(1, Bounds.Height - textLabel.Height));    
+            int newX;
+            int newY;
+
+            Graphics screenGraphics = this.CreateGraphics();
+            
+            //newX = rand.Next(Math.Max(1, Bounds.Width - textLabel.Width));
+            //newY = rand.Next(Math.Max(1, Bounds.Height - textLabel.Height));
+            //// Move text to new location
+            //textLabel.Left = newX;
+            //textLabel.Top = newY;
+            //textLabel.Text = string.Format("{0}, {1}", newX, newY);
+
+            //Graphics myOutput = this.CreateGraphics();
+            //myOutput.DrawImage(screenBitmap, new Point(0, 0));
+            //myOutput.FillRectangle(Brushes.DarkBlue, new Rectangle(5, 5, 10, 10));
+
+            // Get the contents of a random rectangle
+            //newX = rand.Next(Math.Max(1, this.Bounds.Width - 10));
+            //newY = rand.Next(Math.Max(1, this.Bounds.Height - 10));
+
+            //Bitmap savedBits = new Bitmap(20, 20);
+            //Graphics g = Graphics.FromImage(savedBits);
+            
+
+            // Move them to a random spot!
+            newX = rand.Next(Math.Max(1, this.Bounds.Width - 10));
+            newY = rand.Next(Math.Max(1, this.Bounds.Height - 10));
+            screenGraphics.FillRectangle(Brushes.Red, new Rectangle(newX, newY, 10, 10));
         }
 
         #endregion
-        
+
     }
 }
